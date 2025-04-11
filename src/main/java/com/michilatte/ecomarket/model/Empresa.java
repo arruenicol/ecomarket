@@ -16,7 +16,7 @@ public class Empresa {
 
     private String nombre;
     private Integer mercado;
-    private String país = "Chile";
+    private String pais = "Chile";
     private String numIdentificacion;
 
     @ManyToOne
