@@ -1,4 +1,5 @@
 package com.michilatte.ecomarket.model;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -7,21 +8,25 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "carrito")
-public class Carrito {
+@Builder
+@Table(name = "direccion")
+public class Direccion {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idCarrito;
+    private Integer idDireccion;
+    private String direccion;
+    private String comuna;
+    private String region;
+    private String codigoPostal;
 
     @ManyToOne
     @JoinColumn(name = "id_comprador")
     private Comprador comprador;
 
-    @OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL)
-    private List<CarritoItem> items;
-
+    @OneToMany(mappedBy = "direccion")
+    private List<Pedido> pedidos;
 
 }

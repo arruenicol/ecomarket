@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface ProductoRepository extends JpaRepository<Producto, Integer> {
     List<Producto> findByEstadoStock(Boolean estadoStock);
 
-    Optional<Producto> findByNombre(String nombre);
+    Optional<Producto> findByNombreProducto(String nombreProducto);
 
     // Buscar productos por nombre de categoría (usando la relación con Categoria)
     @Query("SELECT p FROM Producto p WHERE p.categoria.nombre = :nombreCategoria")

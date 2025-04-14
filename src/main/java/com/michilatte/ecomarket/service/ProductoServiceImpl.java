@@ -29,7 +29,7 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Override
     public Producto findProductoByNombre(String nombreProducto) {
-        return productoRepository.findByNombre(nombreProducto)
+        return productoRepository.findByNombreProducto(nombreProducto)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
     }
 

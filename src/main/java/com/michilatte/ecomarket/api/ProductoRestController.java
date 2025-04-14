@@ -17,13 +17,13 @@ public class ProductoRestController {
 
     private final ProductoService productoService;
 
-    // Get all products
-    @GetMapping
+    // devuelve todos los productos
+    @GetMapping("/lista")
     public ResponseEntity<List<Producto>> getAllProductos() {
         return ResponseEntity.ok(productoService.getAllProductos());
     }
 
-    // Get product by ID
+    // producto por id
     @GetMapping("/producto/{id}")
     public ResponseEntity<Producto> getProductoById(@PathVariable Integer id) {
         return productoService.getProductoById(id)
@@ -31,13 +31,12 @@ public class ProductoRestController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Create new product
     @PostMapping("/nuevo")
     public ResponseEntity<Producto> createProducto(@RequestBody Producto nuevoProducto) {
         return new ResponseEntity<>(productoService.createProducto(nuevoProducto), HttpStatus.CREATED);
     }
 
-    // Update product by ID
+    // actualizar pir id
     @PutMapping("/editar/{id}")
     public ResponseEntity<Producto> updateProducto(@PathVariable Integer id, @RequestBody Producto producto) {
         try {
@@ -48,7 +47,7 @@ public class ProductoRestController {
         }
     }
 
-    // Delete product by ID
+    // borrar por id
     @DeleteMapping("/borrar/{id}")
     public ResponseEntity<?> deleteProducto(@PathVariable Integer id) {
         productoService.deleteProducto(id);
@@ -63,13 +62,14 @@ public class ProductoRestController {
                 HttpStatus.OK);
     }
 
-    // Filter products by category
+    // busca por categoria
     @GetMapping("/categoria/{categoria}")
     public ResponseEntity<List<Producto>> getProductosByCategoria(@PathVariable String categoria) {
         return new ResponseEntity<>(productoService.findAllByCategoria(categoria), HttpStatus.OK);
     }
 
-    // Filter products by price range
+    //por precio
+
     @GetMapping("/precio")
     public ResponseEntity<List<Producto>> getProductosByPrecioRango(
             @RequestParam Double min,

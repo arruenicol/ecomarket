@@ -14,9 +14,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @Table(name = "detalle_pedido")
 public class DetallePedido {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idDetallePedido;
+    private Long idDetallePedido;
 
     @ManyToOne
     @JoinColumn(name = "id_pedido")

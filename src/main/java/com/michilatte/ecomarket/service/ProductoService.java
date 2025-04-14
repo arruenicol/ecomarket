@@ -9,7 +9,7 @@ public interface ProductoService {
 
     List<Producto> getAllProductos();
     Optional<Producto> getProductoById(Integer id);
-    Producto findProductoByNombre(String nombre);
+    Producto findProductoByNombre(String nombreProducto);
     Producto createProducto(Producto producto);
     Producto updateProducto(Integer id, Producto producto);
     void deleteProducto(Integer id);

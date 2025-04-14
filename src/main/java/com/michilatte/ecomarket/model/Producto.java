@@ -16,11 +16,7 @@ public class Producto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idProducto;
-
-    @ManyToOne
-    @JoinColumn(name = "id_empresa")
-    private Empresa empresa;
+    private Integer idProducto;
 
     private String nombreProducto;
 
@@ -28,12 +24,14 @@ public class Producto {
     @JoinColumn(name = "id_categoria")
     private Categoria categoria;
 
-    private Integer estadoStock;
-    private String descripcion;
+    private Boolean estadoStock;
 
+    private String descripcion;
 
     @OneToMany(mappedBy = "producto")
     private List<CarritoItem> carritoItems;
 
+    @OneToMany(mappedBy = "producto")
+    private List<DetallePedido> detallePedidos;
 
 }
