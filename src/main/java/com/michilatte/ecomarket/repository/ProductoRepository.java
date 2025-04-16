@@ -15,7 +15,7 @@ public interface ProductoRepository extends JpaRepository<Producto, Integer> {
 
     Optional<Producto> findByNombreProducto(String nombreProducto);
 
-    // Buscar productos por nombre de categoría (usando la relación con Categoria)
+    // JPQL Buscar productos por nombre de categoría (usando la relación con Categoria)
     @Query("SELECT p FROM Producto p WHERE p.categoria.nombre = :nombreCategoria")
     List<Producto> findAllByCategoria(@Param("nombreCategoria") String nombreCategoria);
 

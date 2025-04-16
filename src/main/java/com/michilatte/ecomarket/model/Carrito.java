@@ -15,13 +15,11 @@ public class Carrito {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCarrito;
-
+    
     @ManyToOne
     @JoinColumn(name = "id_comprador")
     private Comprador comprador;
 
     @OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL)
     private List<CarritoItem> items;
-
-
 }

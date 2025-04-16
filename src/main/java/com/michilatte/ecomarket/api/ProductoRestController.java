@@ -1,6 +1,5 @@
 package com.michilatte.ecomarket.api;
 
-
 import com.michilatte.ecomarket.model.Producto;
 import com.michilatte.ecomarket.service.ProductoService;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +35,7 @@ public class ProductoRestController {
         return new ResponseEntity<>(productoService.createProducto(nuevoProducto), HttpStatus.CREATED);
     }
 
-    // actualizar pir id
+    // actualizar por id
     @PutMapping("/editar/{id}")
     public ResponseEntity<Producto> updateProducto(@PathVariable Integer id, @RequestBody Producto producto) {
         try {

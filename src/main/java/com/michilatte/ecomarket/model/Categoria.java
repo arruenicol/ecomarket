@@ -9,7 +9,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Table(name = "categoria")
 public class Categoria {
     @Id
@@ -18,8 +17,5 @@ public class Categoria {
 
     private String nombre;
     private String descripcion;
-
-    @OneToMany(mappedBy = "categoria")
-    private List<Producto> productos;
 
 }

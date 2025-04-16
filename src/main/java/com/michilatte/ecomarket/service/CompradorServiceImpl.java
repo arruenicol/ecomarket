@@ -5,7 +5,6 @@ import com.michilatte.ecomarket.dto.DireccionDTO;
 import com.michilatte.ecomarket.model.Comprador;
 import com.michilatte.ecomarket.model.Direccion;
 import com.michilatte.ecomarket.repository.CompradorRepository;
-import com.michilatte.ecomarket.service.CompradorService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

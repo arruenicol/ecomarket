@@ -1,1 +1,1 @@
-select * from direccion
+select * from producto
