@@ -25,9 +25,15 @@ public class Producto {
     @JoinColumn(name = "id_categoria")
     private Categoria categoria;
 
-    private Boolean estadoStock;
-
     private String descripcion;
+
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "id_empresa", nullable = false)
+    private Empresa empresa;
+
+    private Float precio;
+
+    private Integer cantidad; //cambiar tipo a integer
 
     @OneToMany(mappedBy = "producto")
     private List<CarritoItem> carritoItems;

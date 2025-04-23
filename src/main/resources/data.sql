@@ -1,1 +1,2 @@
-select * from producto
+use ecomarket;
+select * from comprador;

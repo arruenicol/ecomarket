@@ -1,5 +1,7 @@
 package com.michilatte.ecomarket.api;
 
+import com.michilatte.ecomarket.dto.ProductoDTO;
+import com.michilatte.ecomarket.model.ECategoria;
 import com.michilatte.ecomarket.model.Producto;
 import com.michilatte.ecomarket.service.ProductoService;
 import lombok.RequiredArgsConstructor;
@@ -18,28 +20,28 @@ public class ProductoRestController {
 
     // devuelve todos los productos
     @GetMapping("/lista")
-    public ResponseEntity<List<Producto>> getAllProductos() {
+    public ResponseEntity<List<ProductoDTO>> getAllProductos() {
         return ResponseEntity.ok(productoService.getAllProductos());
     }
 
     // producto por id
-    @GetMapping("/producto/{id}")
-    public ResponseEntity<Producto> getProductoById(@PathVariable Integer id) {
+    @GetMapping("/id/{id}")
+    public ResponseEntity<ProductoDTO> getProductoById(@PathVariable Integer id) {
         return productoService.getProductoById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("/nuevo")
-    public ResponseEntity<Producto> createProducto(@RequestBody Producto nuevoProducto) {
+    public ResponseEntity<ProductoDTO> createProducto(@RequestBody ProductoDTO nuevoProducto) {
         return new ResponseEntity<>(productoService.createProducto(nuevoProducto), HttpStatus.CREATED);
     }
 
     // actualizar por id
     @PutMapping("/editar/{id}")
-    public ResponseEntity<Producto> updateProducto(@PathVariable Integer id, @RequestBody Producto producto) {
+    public ResponseEntity<ProductoDTO> updateProducto(@PathVariable Integer id, @RequestBody ProductoDTO productoDTO) {
         try {
-            Producto updated = productoService.updateProducto(id, producto);
+            ProductoDTO updated = productoService.updateProducto(id, productoDTO);
             return ResponseEntity.ok(updated);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
@@ -55,16 +57,17 @@ public class ProductoRestController {
 
 
     //buscar por nombre de producto
-    @GetMapping("/producto")
-    public ResponseEntity<Producto> findByNombreProducto(@RequestParam String nombreProducto) {
+    @GetMapping("/nombre/{nombreProducto}")
+    public ResponseEntity<List<ProductoDTO>> findByNombreProducto(@PathVariable String nombreProducto) {
         return new ResponseEntity<>(productoService.findProductoByNombre(nombreProducto),
                 HttpStatus.OK);
     }
 
     // busca por categoria
     @GetMapping("/categoria/{categoria}")
-    public ResponseEntity<List<Producto>> getProductosByCategoria(@PathVariable String categoria) {
-        return new ResponseEntity<>(productoService.findAllByCategoria(categoria), HttpStatus.OK);
+    public ResponseEntity<List<ProductoDTO>> getProductosByCategoria(@PathVariable String categoria) {
+        return new ResponseEntity<>(productoService.findAllByCategoria(categoria),
+                HttpStatus.OK);
     }
 
     //por precio

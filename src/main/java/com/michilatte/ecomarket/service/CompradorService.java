@@ -1,7 +1,6 @@
 package com.michilatte.ecomarket.service;
 
 import com.michilatte.ecomarket.dto.CompradorDTO;
-import com.michilatte.ecomarket.model.Comprador;
 
 import java.util.List;
 

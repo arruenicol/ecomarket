@@ -47,40 +47,40 @@ public class CompradorServiceImpl implements CompradorService {
     @Override
     public CompradorDTO update(Integer id, CompradorDTO dto) {
         Comprador existing = compradorRepository.findById(id).orElseThrow();
-        existing.setNombre(dto.getNombreComprador());
-        existing.setApellido(dto.getApellidoComprador());
-        existing.setTipoDoc(dto.getTipoDoc());
-        existing.setNumIdentificador(dto.getNumIdentificador());
-        existing.setFechaNacimiento(dto.getFechaNacimientoComprador());
-        existing.setTelefono(dto.getTelefonoComprador());
-        existing.setCorreo(dto.getCorreo());
-        existing.setContrasenia(dto.getContrasenia());
+        existing.setNombre(dto.getNombreCompradorDTO());
+        existing.setApellido(dto.getApellidoCompradorDTO());
+        existing.setTipoDoc(dto.getTipoDocDTO());
+        existing.setNumIdentificador(dto.getNumIdentificadorDTO());
+        existing.setFechaNacimiento(dto.getFechaNacimientoCompradorDTO());
+        existing.setTelefono(dto.getTelefonoCompradorDTO());
+        existing.setCorreo(dto.getCorreoDTO());
+        existing.setContrasenia(dto.getContraseniaDTO());
         return toDto(compradorRepository.save(existing));
     }
 
     private Comprador toEntity(CompradorDTO dto) {
-        List<Direccion> direcciones = dto.getDirecciones() != null
-                ? dto.getDirecciones().stream()
+        List<Direccion> direcciones = dto.getDireccionesDTO() != null
+                ? dto.getDireccionesDTO().stream()
                 .map(d -> Direccion.builder()
-                        .idDireccion(d.getIdDireccion())
-                        .direccion(d.getDireccion())
-                        .comuna(d.getComuna())
-                        .region(d.getRegion())
-                        .codigoPostal(d.getCodigoPostal())
+                        .idDireccion(d.getIdDireccionDTO())
+                        .direccion(d.getDireccionDTO())
+                        .comuna(d.getComunaDTO())
+                        .region(d.getRegionDTO())
+                        .codigoPostal(d.getCodigoPostalDTO())
                         .build())
                 .collect(Collectors.toList())
                 : null;
 
         Comprador comprador = Comprador.builder()
-                .idComprador(dto.getIdComprador())
-                .nombre(dto.getNombreComprador())
-                .apellido(dto.getApellidoComprador())
-                .tipoDoc(dto.getTipoDoc())
-                .numIdentificador(dto.getNumIdentificador())
-                .fechaNacimiento(dto.getFechaNacimientoComprador())
-                .telefono(dto.getTelefonoComprador())
-                .correo(dto.getCorreo())
-                .contrasenia(dto.getContrasenia())
+                .idComprador(dto.getIdCompradorDTO())
+                .nombre(dto.getNombreCompradorDTO())
+                .apellido(dto.getApellidoCompradorDTO())
+                .tipoDoc(dto.getTipoDocDTO())
+                .numIdentificador(dto.getNumIdentificadorDTO())
+                .fechaNacimiento(dto.getFechaNacimientoCompradorDTO())
+                .telefono(dto.getTelefonoCompradorDTO())
+                .correo(dto.getCorreoDTO())
+                .contrasenia(dto.getContraseniaDTO())
                 .direcciones(direcciones)
                 .build();
 
@@ -95,27 +95,26 @@ public class CompradorServiceImpl implements CompradorService {
         List<DireccionDTO> direcciones = comprador.getDirecciones() != null
                 ? comprador.getDirecciones().stream()
                 .map(d -> DireccionDTO.builder()
-                        .idDireccion(d.getIdDireccion())
-                        .direccion(d.getDireccion())
-                        .comuna(d.getComuna())
-                        .region(d.getRegion())
-                        .codigoPostal(d.getCodigoPostal())
+                        .idDireccionDTO(d.getIdDireccion())
+                        .direccionDTO(d.getDireccion())
+                        .comunaDTO(d.getComuna())
+                        .regionDTO(d.getRegion())
+                        .codigoPostalDTO(d.getCodigoPostal())
                         .build())
                 .collect(Collectors.toList())
                 : null;
 
         return CompradorDTO.builder()
-                .idComprador(comprador.getIdComprador())
-                .nombreComprador(comprador.getNombre())
-                .apellidoComprador(comprador.getApellido())
-                .tipoDoc(comprador.getTipoDoc())
-                .numIdentificador(comprador.getNumIdentificador())
-                .fechaNacimientoComprador(comprador.getFechaNacimiento())
-                .telefonoComprador(comprador.getTelefono())
-                .correo(comprador.getCorreo())
-                .contrasenia(comprador.getContrasenia())
-                .direcciones(direcciones)
+                .idCompradorDTO(comprador.getIdComprador())
+                .nombreCompradorDTO(comprador.getNombre())
+                .apellidoCompradorDTO(comprador.getApellido())
+                .tipoDocDTO(comprador.getTipoDoc())
+                .numIdentificadorDTO(comprador.getNumIdentificador())
+                .fechaNacimientoCompradorDTO(comprador.getFechaNacimiento())
+                .telefonoCompradorDTO(comprador.getTelefono())
+                .correoDTO(comprador.getCorreo())
+                .contraseniaDTO(comprador.getContrasenia())
+                .direccionesDTO(direcciones)
                 .build();
     }
 }
-

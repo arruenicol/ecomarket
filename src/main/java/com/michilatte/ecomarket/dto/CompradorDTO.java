@@ -12,15 +12,15 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class CompradorDTO {
-    private Integer idComprador;
-    private String nombreComprador;
-    private String apellidoComprador;
-    private TipoDoc tipoDoc;
-    private String numIdentificador;
-    private Date fechaNacimientoComprador;
-    private String telefonoComprador;
-    private String correo;
-    private String contrasenia;
-    private List<DireccionDTO> direcciones;
+    private Integer idCompradorDTO;
+    private String nombreCompradorDTO;
+    private String apellidoCompradorDTO;
+    private TipoDoc tipoDocDTO;
+    private String numIdentificadorDTO;
+    private Date fechaNacimientoCompradorDTO;
+    private String telefonoCompradorDTO;
+    private String correoDTO;
+    private String contraseniaDTO;
+    private List<DireccionDTO> direccionesDTO;
 }
 

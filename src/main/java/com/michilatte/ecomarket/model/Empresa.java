@@ -20,6 +20,7 @@ public class Empresa {
     private String numIdentificacion;
 
     @ManyToOne
+    @JoinColumn(name = "id_vendedor")
     private Vendedor vendedor;
 
 }

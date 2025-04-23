@@ -3,7 +3,6 @@ package com.michilatte.ecomarket.service;
 import com.michilatte.ecomarket.dto.DireccionDTO;
 import com.michilatte.ecomarket.model.Direccion;
 import com.michilatte.ecomarket.repository.DireccionRepository;
-import com.michilatte.ecomarket.service.DireccionService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,20 +20,20 @@ public class DireccionServiceImpl implements DireccionService {
     @Override
     public DireccionDTO save(DireccionDTO dto) {
         Direccion direccion = toEntity(dto);
-        return toDto(direccionRepository.save(direccion));
+        return toDTO(direccionRepository.save(direccion));
     }
 
     @Override
     public DireccionDTO findById(Integer id) {
         return direccionRepository.findById(id)
-                .map(this::toDto)
+                .map(this::toDTO)
                 .orElse(null);
     }
 
     @Override
     public List<DireccionDTO> findAll() {
         return direccionRepository.findAll().stream()
-                .map(this::toDto)
+                .map(this::toDTO)
                 .collect(Collectors.toList());
     }
 
@@ -43,23 +42,23 @@ public class DireccionServiceImpl implements DireccionService {
         direccionRepository.deleteById(id);
     }
 
-    private DireccionDTO toDto(Direccion d) {
+    private DireccionDTO toDTO(Direccion d) {
         return DireccionDTO.builder()
-                .idDireccion(d.getIdDireccion())
-                .direccion(d.getDireccion())
-                .comuna(d.getComuna())
-                .region(d.getRegion())
-                .codigoPostal(d.getCodigoPostal())
+                .idDireccionDTO(d.getIdDireccion())
+                .direccionDTO(d.getDireccion())
+                .comunaDTO(d.getComuna())
+                .regionDTO(d.getRegion())
+                .codigoPostalDTO(d.getCodigoPostal())
                 .build();
     }
 
     private Direccion toEntity(DireccionDTO d) {
         return Direccion.builder()
-                .idDireccion(d.getIdDireccion())
-                .direccion(d.getDireccion())
-                .comuna(d.getComuna())
-                .region(d.getRegion())
-                .codigoPostal(d.getCodigoPostal())
+                .idDireccion(d.getIdDireccionDTO())
+                .direccion(d.getDireccionDTO())
+                .comuna(d.getComunaDTO())
+                .region(d.getRegionDTO())
+                .codigoPostal(d.getCodigoPostalDTO())
                 .build();
     }
 }
