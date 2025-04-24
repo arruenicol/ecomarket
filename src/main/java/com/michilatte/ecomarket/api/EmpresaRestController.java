@@ -1,5 +1,6 @@
 package com.michilatte.ecomarket.api;
 
+import com.michilatte.ecomarket.dto.EmpresaDTO;
 import com.michilatte.ecomarket.model.Empresa;
 import com.michilatte.ecomarket.repository.EmpresaRepository;
 import com.michilatte.ecomarket.service.EmpresaService;
@@ -16,25 +17,25 @@ import java.util.List;
 public class EmpresaRestController {
     private final EmpresaService empresaService;
 
-    @GetMapping
-    public List<Empresa> getAll() {
+    @GetMapping("/lista")
+    public List<EmpresaDTO> getAll() {
         return empresaService.getAllEmpresas();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Empresa> getById(@PathVariable Integer id) {
+    public ResponseEntity<EmpresaDTO> getById(@PathVariable Integer id) {
         return empresaService.getEmpresaById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<Empresa> create(@RequestBody Empresa empresa) {
+    public ResponseEntity<EmpresaDTO> create(@RequestBody Empresa empresa) {
         return new ResponseEntity<>(empresaService.createEmpresa(empresa), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Empresa> update(@PathVariable Integer id, @RequestBody Empresa empresa) {
+    public ResponseEntity<EmpresaDTO> update(@PathVariable Integer id, @RequestBody Empresa empresa) {
         try {
             return ResponseEntity.ok(empresaService.updateEmpresa(id, empresa));
         } catch (RuntimeException e) {

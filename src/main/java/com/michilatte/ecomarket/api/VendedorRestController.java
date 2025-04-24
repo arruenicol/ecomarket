@@ -1,5 +1,8 @@
 package com.michilatte.ecomarket.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.michilatte.ecomarket.dto.EmpresaDTO;
+import com.michilatte.ecomarket.dto.VendedorDTO;
 import com.michilatte.ecomarket.model.Vendedor;
 import com.michilatte.ecomarket.service.VendedorService;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/vendedores")
@@ -17,27 +21,36 @@ public class VendedorRestController {
     private final VendedorService vendedorService;
 
 
-    @GetMapping
-    public List<Vendedor> getAll() {
+    @GetMapping("/lista")
+    public List<VendedorDTO> getAll() {
         return vendedorService.getAllVendedores();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Vendedor> getById(@PathVariable Integer id) {
+    public ResponseEntity<VendedorDTO> getById(@PathVariable Integer id) {
         return vendedorService.getVendedorById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping
-    public ResponseEntity<Vendedor> create(@RequestBody Vendedor vendedor) {
-        return new ResponseEntity<>(vendedorService.createVendedor(vendedor), HttpStatus.CREATED);
+    @PostMapping("/nuevo")
+    public ResponseEntity<VendedorDTO> create(@RequestBody Map<String, Object> body) {
+        // Deserialize manually using ObjectMapper
+        ObjectMapper mapper = new ObjectMapper();
+
+        VendedorDTO vendedorDTO = mapper.convertValue(body.get("vendedor"), VendedorDTO.class);
+        EmpresaDTO empresaDTO = mapper.convertValue(body.get("empresa"), EmpresaDTO.class);
+
+        VendedorDTO created = vendedorService.createVendedor(vendedorDTO, empresaDTO);
+        return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
 
+
     @PutMapping("/{id}")
-    public ResponseEntity<Vendedor> update(@PathVariable Integer id, @RequestBody Vendedor vendedor) {
+    public ResponseEntity<VendedorDTO> update(@PathVariable Integer id, @RequestBody VendedorDTO vendedorDTO) {
         try {
-            return ResponseEntity.ok(vendedorService.updateVendedor(id, vendedor));
+            VendedorDTO updated = vendedorService.updateVendedor(id, vendedorDTO);
+            return ResponseEntity.ok(updated);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }

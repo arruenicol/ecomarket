@@ -1,13 +1,12 @@
 package com.michilatte.ecomarket.service;
 
-import com.michilatte.ecomarket.dto.CarritoDTO;
-import com.michilatte.ecomarket.dto.CarritoItemDTO;
-import com.michilatte.ecomarket.dto.CompradorDTO;
-import com.michilatte.ecomarket.dto.DireccionDTO;
+import com.michilatte.ecomarket.dto.*;
 import com.michilatte.ecomarket.model.Carrito;
 import com.michilatte.ecomarket.model.CarritoItem;
 import com.michilatte.ecomarket.model.Comprador;
+import com.michilatte.ecomarket.model.Producto;
 import com.michilatte.ecomarket.repository.CarritoRepository;
+import com.michilatte.ecomarket.repository.CompradorRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +20,7 @@ import java.util.stream.Collectors;
 public class CarritoServiceImpl implements CarritoService {
 
     private final CarritoRepository carritoRepository;
+    private final CompradorRepository compradorRepository;
 
 
     /* ** SERVICIOS ** */
@@ -70,10 +70,14 @@ public class CarritoServiceImpl implements CarritoService {
                 .collect(Collectors.toList())
                 : null;
 
+        Comprador comprador = compradorRepository.findById(carritoDTO.getCompradorDTO().getIdCompradorDTO())
+                .orElseThrow(() -> new RuntimeException("Comprador no encontrado con ID: "
+                        + carritoDTO.getCompradorDTO().getIdCompradorDTO()));
+
 
         Carrito carrito = Carrito.builder()
                 .idCarrito(carritoDTO.getIdCarritoDTO())
-                //.comprador(carritoDTO.getCompradorDTO()) // VER !!!
+                .comprador(comprador)
                 .items(items)
                 .build();
 
@@ -97,9 +101,14 @@ public class CarritoServiceImpl implements CarritoService {
                 .collect(Collectors.toList())
                 : null;
 
+        Comprador comprador = carrito.getComprador();
+        CompradorDTO compradorDTO = CompradorDTO.builder()
+                .idCompradorDTO(comprador.getIdComprador())
+                .build();
+
         return CarritoDTO.builder()
                 .idCarritoDTO(carrito.getIdCarrito())
-                //.compradorDTO(carrito.getComprador())  // VER !!
+                .compradorDTO(compradorDTO)  // VER !!
                 .itemsDTO(itemsDTO)
                 .build();
     }
