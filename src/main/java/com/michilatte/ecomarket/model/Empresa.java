@@ -2,6 +2,8 @@ package com.michilatte.ecomarket.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -15,12 +17,20 @@ public class Empresa {
     private Integer idEmpresa;
 
     private String nombre;
-    private Integer mercado;
-    private String pais = "Chile";
-    private String numIdentificacion;
 
     @ManyToOne
+    @JoinColumn(name = "mercado")
+    private Categoria mercado;
+
+    private String pais;
+    private String numIdentificacion;
+
+    @OneToOne
     @JoinColumn(name = "id_vendedor")
     private Vendedor vendedor;
+
+    @OneToMany(mappedBy = "empresa")
+    private List<Producto> productos;
+
 
 }

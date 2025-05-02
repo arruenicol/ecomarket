@@ -1,6 +1,8 @@
 package com.michilatte.ecomarket.service;
 
+import com.michilatte.ecomarket.dto.CategoriaDTO;
 import com.michilatte.ecomarket.model.Categoria;
+import com.michilatte.ecomarket.model.Producto;
 import com.michilatte.ecomarket.repository.CategoriaRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -18,26 +21,30 @@ public class CategoriaServiceImpl implements CategoriaService {
 
 
     @Override
-    public List<Categoria> getAllCategorias() {
-        return categoriaRepository.findAll();
+    public List<CategoriaDTO> getAllCategorias() {
+        return categoriaRepository.findAll().stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Optional<Categoria> getCategoriaById(Integer id) {
-        return categoriaRepository.findById(id);
+    public Optional<CategoriaDTO> getCategoriaById(Integer id) {
+        return categoriaRepository.findById(id)
+                .map(this::toDTO);
     }
 
     @Override
-    public Categoria createCategoria(Categoria categoria) {
-        return categoriaRepository.save(categoria);
+    public CategoriaDTO createCategoria(CategoriaDTO categoriaDTO) {
+        Categoria categoria = toEntity(categoriaDTO);
+        return toDTO(categoriaRepository.save(categoria));
     }
 
     @Override
-    public Categoria updateCategoria(Integer id, Categoria categoria) {
+    public CategoriaDTO updateCategoria(Integer id, CategoriaDTO categoriaDTO) {
         return categoriaRepository.findById(id).map(existing -> {
-            existing.setNombre(categoria.getNombre());
-            existing.setDescripcion(categoria.getDescripcion());
-            return categoriaRepository.save(existing);
+            existing.setNombre(categoriaDTO.getNombreDTO());
+            existing.setDescripcion(categoriaDTO.getDescripcionDTO());
+            return toDTO(categoriaRepository.save(existing));
         }).orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
     }
 
@@ -45,4 +52,30 @@ public class CategoriaServiceImpl implements CategoriaService {
     public void deleteCategoria(Integer id) {
         categoriaRepository.deleteById(id);
     }
+
+
+
+
+
+    private Categoria toEntity(CategoriaDTO dto) {
+        Categoria categoria = Categoria.builder()
+                .idCategoria(dto.getIdCategoriaDTO())
+                .nombre(dto.getNombreDTO())
+                .descripcion(dto.getDescripcionDTO())
+                .build();
+
+        return categoria;
+
+    }
+
+    private CategoriaDTO toDTO(Categoria categoria) {
+        return CategoriaDTO.builder()
+                .idCategoriaDTO(categoria.getIdCategoria())
+                .nombreDTO(categoria.getNombre())
+                .descripcionDTO(categoria.getDescripcion())
+                .build();
+
+    }
+
+
 }

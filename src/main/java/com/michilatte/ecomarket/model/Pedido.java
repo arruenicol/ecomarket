@@ -3,6 +3,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -33,6 +34,10 @@ public class Pedido {
     private EstadoPedido estado;
 
     private float total;
+
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+    private List<DetallePedido> detallePedidos;
+
 
     public enum EstadoPedido {
         pendiente,

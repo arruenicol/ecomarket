@@ -1,14 +1,16 @@
 package com.michilatte.ecomarket.service;
 
+import com.michilatte.ecomarket.dto.CategoriaDTO;
 import com.michilatte.ecomarket.model.Categoria;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CategoriaService {
-    List<Categoria> getAllCategorias();
-    Optional<Categoria> getCategoriaById(Integer id);
-    Categoria createCategoria(Categoria categoria);
-    Categoria updateCategoria(Integer id, Categoria categoria);
+    List<CategoriaDTO> getAllCategorias();
+    Optional<CategoriaDTO> getCategoriaById(Integer id);
+    CategoriaDTO createCategoria(CategoriaDTO categoriaDTO);
+    CategoriaDTO updateCategoria(Integer id, CategoriaDTO categoriaDTO);
     void deleteCategoria(Integer id);
+
 }

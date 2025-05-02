@@ -1,6 +1,6 @@
 package com.michilatte.ecomarket.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,13 +27,16 @@ public class Producto {
 
     private String descripcion;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "id_empresa", nullable = false)
     private Empresa empresa;
 
     private Float precio;
 
-    private Integer cantidad; //cambiar tipo a integer
+    private Integer cantidad;
+
+    @Schema(description = "URL de imágen del producto")
+    private String imagenUrl;
 
     @OneToMany(mappedBy = "producto")
     private List<CarritoItem> carritoItems;

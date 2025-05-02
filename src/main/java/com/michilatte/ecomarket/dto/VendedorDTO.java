@@ -2,6 +2,8 @@ package com.michilatte.ecomarket.dto;
 
 import com.michilatte.ecomarket.model.Vendedor;
 import java.util.Date;
+import java.util.List;
+
 import lombok.*;
 
 @Getter

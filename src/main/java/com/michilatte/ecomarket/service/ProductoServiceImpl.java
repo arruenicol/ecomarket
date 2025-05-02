@@ -109,6 +109,7 @@ public class ProductoServiceImpl implements ProductoService {
                 .empresa(empresa)
                 .precio(dto.getPrecioDTO())
                 .cantidad(dto.getCantidadDTO())
+                .imagenUrl(dto.getImagen())
                 .build();
 
         return producto;
@@ -133,7 +134,6 @@ public class ProductoServiceImpl implements ProductoService {
         EmpresaDTO empresaDTO = EmpresaDTO.builder()
                 .idEmpresa(empresa.getIdEmpresa())
                 .nombreDTO(empresa.getNombre())
-                .mercadoDTO(empresa.getMercado())
                 .paisDTO(empresa.getPais())
                 .numIdentificacionDTO(empresa.getNumIdentificacion())
                 .build();
@@ -146,6 +146,7 @@ public class ProductoServiceImpl implements ProductoService {
                 .empresaDTO(empresaDTO)
                 .precioDTO(producto.getPrecio())
                 .cantidadDTO(producto.getCantidad())
+                .imagen(producto.getImagenUrl())
                 .build();
     }
 

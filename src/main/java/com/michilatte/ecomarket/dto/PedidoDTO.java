@@ -4,6 +4,7 @@ import com.michilatte.ecomarket.model.Pedido;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,4 +18,5 @@ public class PedidoDTO {
     private Date fechaPedidoDTO;
     private Pedido.EstadoPedido estadoDTO;
     private Float total;
+    private List<DetallePedidoDTO> detalleDTO;
 }

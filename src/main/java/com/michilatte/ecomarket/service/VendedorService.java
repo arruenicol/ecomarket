@@ -10,6 +10,7 @@ import java.util.Optional;
 public interface VendedorService {
     List<VendedorDTO> getAllVendedores();
     Optional<VendedorDTO> getVendedorById(Integer id);
+    Optional<VendedorDTO> findVendedorAndEmpresaByIdVendedor(Integer idVendedor);
     VendedorDTO createVendedor(VendedorDTO vendedorDTO, EmpresaDTO empresaDTO);
     VendedorDTO updateVendedor(Integer id, VendedorDTO vendedorDTO);
     void deleteVendedor(Integer id);

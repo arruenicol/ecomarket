@@ -1,9 +1,12 @@
 package com.michilatte.ecomarket.service;
 
+import com.michilatte.ecomarket.dto.CategoriaDTO;
 import com.michilatte.ecomarket.dto.EmpresaDTO;
 import com.michilatte.ecomarket.dto.VendedorDTO;
+import com.michilatte.ecomarket.model.Categoria;
 import com.michilatte.ecomarket.model.Empresa;
 import com.michilatte.ecomarket.model.Vendedor;
+import com.michilatte.ecomarket.repository.CategoriaRepository;
 import com.michilatte.ecomarket.repository.EmpresaRepository;
 import com.michilatte.ecomarket.repository.VendedorRepository;
 import jakarta.transaction.Transactional;
@@ -21,12 +24,20 @@ public class VendedorServiceImpl implements VendedorService {
 
     private final VendedorRepository vendedorRepository;
     private final EmpresaRepository empresaRepository;
+    private final CategoriaRepository categoriaRepository;
 
     @Override
     public List<VendedorDTO> getAllVendedores() {
         return vendedorRepository.findAll().stream()
                 .map(this::toDTO)
                 .collect(Collectors.toList());
+    }
+
+
+    @Override
+    public Optional<VendedorDTO> findVendedorAndEmpresaByIdVendedor(Integer idVendedor) {
+        return vendedorRepository.findVendedorAndEmpresaByIdVendedor(idVendedor)
+                .map(this::toDTO);
     }
 
     @Override
@@ -43,15 +54,14 @@ public class VendedorServiceImpl implements VendedorService {
         Empresa empresa = toEmpresaEntity(empresaDTO, vendedor);
         empresaRepository.save(empresa);
 
-        return toDTO(vendedor);    }
+        return toDTO(vendedor);
+    }
 
     @Override
     public VendedorDTO updateVendedor(Integer id, VendedorDTO vendedorDTO) {
         return vendedorRepository.findById(id).map(existing -> {
             existing.setNombre(vendedorDTO.getNombreVendedorDTO());
             existing.setApellido(vendedorDTO.getApellidoVendedorDTO());
-            existing.setTipoDoc(vendedorDTO.getTipoDocDTO());
-            existing.setNumIdentificador(vendedorDTO.getNumIdentificadorDTO());
             existing.setFechaNacimiento(vendedorDTO.getFechaNacimientoDTO());
             existing.setTelefono(vendedorDTO.getTelefonoDTO());
             existing.setCorreo(vendedorDTO.getCorreoDTO());
@@ -83,10 +93,13 @@ public class VendedorServiceImpl implements VendedorService {
     }
 
     private Empresa toEmpresaEntity(EmpresaDTO dto, Vendedor vendedor) {
+        Categoria categoria = categoriaRepository.findById(dto.getMercadoDTO().getIdCategoriaDTO())
+                .orElseThrow(() -> new RuntimeException("Categoria no encontrada"));
+
         return Empresa.builder()
                 .idEmpresa(dto.getIdEmpresa())
                 .nombre(dto.getNombreDTO())
-                .mercado(dto.getMercadoDTO())
+                .mercado(categoria)
                 .pais(dto.getPaisDTO())
                 .numIdentificacion(dto.getNumIdentificacionDTO())
                 .vendedor(vendedor)
@@ -107,5 +120,23 @@ public class VendedorServiceImpl implements VendedorService {
                 .correoDTO(vendedor.getCorreo())
                 .contraseniaDTO(vendedor.getContrasenia())
                 .build();
+
     }
+
+    private EmpresaDTO toEmpresaDTO(Empresa empresa){
+        Categoria categoria = empresa.getMercado();
+        CategoriaDTO categoriaDTO = CategoriaDTO.builder()
+                .nombreDTO(categoria.getNombre())
+                .build();
+
+        return EmpresaDTO.builder()
+                .idEmpresa(empresa.getIdEmpresa())
+                .nombreDTO(empresa.getNombre())
+                .mercadoDTO(categoriaDTO)
+                .paisDTO(empresa.getPais())
+                .numIdentificacionDTO(empresa.getNumIdentificacion())
+                .build();
+    }
+
+
 }

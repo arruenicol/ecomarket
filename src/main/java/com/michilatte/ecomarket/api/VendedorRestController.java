@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/vendedores")
 @RequiredArgsConstructor
 public class VendedorRestController {
@@ -26,16 +27,23 @@ public class VendedorRestController {
         return vendedorService.getAllVendedores();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("vendedor/{id}")
     public ResponseEntity<VendedorDTO> getById(@PathVariable Integer id) {
         return vendedorService.getVendedorById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    /*@GetMapping("/vendedor_empresa/{idVendedor}")
+    public ResponseEntity<VendedorDTO> getVendedorAndEmpresaByIdVendedor(@PathVariable Integer idVendedor) {
+        return vendedorService.findVendedorAndEmpresaByIdVendedor(idVendedor)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+
     @PostMapping("/nuevo")
     public ResponseEntity<VendedorDTO> create(@RequestBody Map<String, Object> body) {
-        // Deserialize manually using ObjectMapper
         ObjectMapper mapper = new ObjectMapper();
 
         VendedorDTO vendedorDTO = mapper.convertValue(body.get("vendedor"), VendedorDTO.class);
@@ -43,10 +51,10 @@ public class VendedorRestController {
 
         VendedorDTO created = vendedorService.createVendedor(vendedorDTO, empresaDTO);
         return new ResponseEntity<>(created, HttpStatus.CREATED);
-    }
+    }*/
 
 
-    @PutMapping("/{id}")
+    @PutMapping("editar/{id}")
     public ResponseEntity<VendedorDTO> update(@PathVariable Integer id, @RequestBody VendedorDTO vendedorDTO) {
         try {
             VendedorDTO updated = vendedorService.updateVendedor(id, vendedorDTO);

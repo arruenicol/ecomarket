@@ -10,8 +10,9 @@ import lombok.*;
 public class EmpresaDTO {
     private Integer idEmpresa;
     private String nombreDTO;
-    private Integer mercadoDTO;
-    private String paisDTO = "Chile";
+    private CategoriaDTO mercadoDTO;
+    private String paisDTO;
     private String numIdentificacionDTO;
+    private VendedorDTO vendedorDTO;
 }
 

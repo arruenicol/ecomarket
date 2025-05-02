@@ -4,19 +4,24 @@ import com.michilatte.ecomarket.dto.ProductoDTO;
 import com.michilatte.ecomarket.model.ECategoria;
 import com.michilatte.ecomarket.model.Producto;
 import com.michilatte.ecomarket.service.ProductoService;
+import com.michilatte.ecomarket.storage.GoogleCloudStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/productos")
 @RequiredArgsConstructor
 public class ProductoRestController {
 
     private final ProductoService productoService;
+    private final GoogleCloudStorageService storageService;
 
     // devuelve todos los productos
     @GetMapping("/lista")
@@ -32,8 +37,17 @@ public class ProductoRestController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/nuevo")
-    public ResponseEntity<ProductoDTO> createProducto(@RequestBody ProductoDTO nuevoProducto) {
+    @PostMapping(value = "/nuevo", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ProductoDTO> createProducto(@RequestPart("producto") ProductoDTO nuevoProducto,
+                                                      @RequestPart("imagen") MultipartFile imagen) throws Exception {
+
+        String imagenUrl = null;
+        if (!imagen.isEmpty()) {
+            imagenUrl = storageService.uploadImage(imagen);
+
+        }
+        nuevoProducto.setImagen(imagenUrl);
+        System.out.println(imagen.getContentType());
         return new ResponseEntity<>(productoService.createProducto(nuevoProducto), HttpStatus.CREATED);
     }
 

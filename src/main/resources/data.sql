@@ -1,2 +1,1 @@
-use ecomarket;
-select * from comprador;
+select * from comprador

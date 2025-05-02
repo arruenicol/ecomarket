@@ -1,10 +1,9 @@
 package com.michilatte.ecomarket.service;
 
-import com.michilatte.ecomarket.model.CarritoItem;
+import com.michilatte.ecomarket.dto.CarritoItemDTO;
 
 public interface CarritoItemService {
-
-    CarritoItem save(CarritoItem item);
-
+    CarritoItemDTO saveCarritoItem(CarritoItemDTO carritoItemDTO);
+    CarritoItemDTO updateCarritoItem(Integer id, CarritoItemDTO carritoItemDTO);
     void delete(Integer id);
 }
