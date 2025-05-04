@@ -1,1 +1,1 @@
-select * from comprador
+select * from vendedor

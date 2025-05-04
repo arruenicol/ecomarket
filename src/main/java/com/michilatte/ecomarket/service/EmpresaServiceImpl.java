@@ -112,6 +112,7 @@ public class EmpresaServiceImpl implements EmpresaService {
     private EmpresaDTO toDTO(Empresa empresa){
         Categoria categoria = empresa.getMercado();
         CategoriaDTO categoriaDTO = CategoriaDTO.builder()
+                .idCategoriaDTO(categoria.getIdCategoria())
                 .nombreDTO(categoria.getNombre())
                 .build();
 
